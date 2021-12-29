@@ -1,0 +1,29 @@
+apiVersion: apps/v1           # API version
+kind: Deployment              # Type of kubernetes resource
+metadata:
+  name: bns-api-deployment    # Name of the kubernetes resource
+  labels:                     # Labels that will be applied to this resource
+    app: bns-api
+spec:
+  replicas: 1                 # No. of replicas/pods to run in this deployment
+  selector:
+    matchLabels:              # The deployment applies to any pods mayching the specified labels
+      app: bns-api
+  template:                   # Template for creating the pods in this deployment
+    metadata:
+      labels:                 # Labels that will be applied to each Pod in this deployment
+        app: bns-api
+    spec:                     # Spec for the containers that will be run in the Pods
+      containers:
+      - name: bns-api-container
+        image: docker.io/sherubphelgay/bns-backend
+        ports:
+          - name: http
+            containerPort: 8080 # The port that the container exposes
+        env:                  # Environment variables supplied to the Pod
+        - name: SPRING_DATASOURCE_USERNAME # Name of the environment variable
+          value: "Sonamtenzin@1993"
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "Sonamtenzin@1993"
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:mysql://bns-mysql-svc:3306/bns_enlistment"
